@@ -18,7 +18,7 @@ jobs:
             packages: write
         steps:
             - uses: actions/checkout@v4
-            - name: Install pnpm
+            - name: Install bun
               uses: oven-sh/setup-bun@v2
               with:
                   version: 10
@@ -30,4 +30,4 @@ jobs:
             - name: Publish to Github Packages
               run: bun publish
               env:
-                  NPM_CONFIG_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
