@@ -30,4 +30,4 @@ jobs:
             - name: Publish to Github Packages
               run: bun publish
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BUN_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
