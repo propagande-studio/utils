@@ -1,0 +1,31 @@
+{
+    "name": "@propagande-studio/utils",
+    "version": "0.0.1",
+    "description": "PROPAGANDE utils.",
+    "author": "propagande.studio",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/propagande-studio/utils.git"
+    },
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "build": "bun ./build && bun run types",
+        "types": "tsc packages/{shared,vue}/index.ts --skipLibCheck true --declaration --emitDeclarationOnly --outDir dist"
+    },
+    "workspaces": [
+        "packages/*"
+    ],
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "files": [
+        "dist"
+    ],
+    "resolutions": {
+        "bun-types": "canary"
+    }
+}

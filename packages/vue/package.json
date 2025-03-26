@@ -1,0 +1,5 @@
+{
+    "name": "vue",
+    "module": "index.ts",
+    "type": "module"
+}
