@@ -8,7 +8,6 @@
         "url": "git+https://github.com/propagande-studio/utils.git"
     },
     "type": "module",
-    "private": true,
     "scripts": {
         "build": "bun ./build && bun run types",
         "types": "tsc packages/{shared,vue}/index.ts --skipLibCheck true --declaration --emitDeclarationOnly --outDir dist"
