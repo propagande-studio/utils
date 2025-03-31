@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -10,13 +10,15 @@
     "type": "module",
     "scripts": {
         "build": "bun ./build && bun run types",
+        "build:watch": "concurrently --kill-others \"bun ./build.watch\" \"bun run types --watch --preserveWatchOutput\"",
         "types": "tsc packages/{shared,vue}/index.ts --skipLibCheck true --declaration --emitDeclarationOnly --outDir dist"
     },
     "workspaces": [
         "packages/*"
     ],
     "devDependencies": {
-        "@types/bun": "latest"
+        "@types/bun": "latest",
+        "concurrently": "^9.1.2"
     },
     "peerDependencies": {
         "typescript": "^5"
@@ -26,5 +28,15 @@
     ],
     "resolutions": {
         "bun-types": "canary"
+    },
+    "exports": {
+        "./shared": {
+            "types": "./dist/shared/index.d.ts",
+            "import": "./dist/shared-index.js"
+        },
+        "./vue": {
+            "types": "./dist/vue/index.d.ts",
+            "import": "./dist/vue-index.js"
+        }
     }
 }
