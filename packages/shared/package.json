@@ -1,5 +1,13 @@
 {
     "name": "shared",
-    "module": "index.ts",
-    "type": "module"
+    "type": "module",
+    "devDependencies": {
+        "@types/throttle-debounce": "^5.0.2"
+    },
+    "dependencies": {
+        "throttle-debounce": "^5.0.2"
+    },
+    "peerDependencies": {
+        "gsap": "^3.12.7"
+    }
 }

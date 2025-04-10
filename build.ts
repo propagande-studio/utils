@@ -7,8 +7,8 @@ export const buildConfig: BuildConfig = {
     target: "browser",
     format: "esm",
     minify: true,
-    external: ["vue", "react"],
-    sourcemap: "external",
+    external: ["vue", "react", "gsap"],
+    sourcemap: "linked",
     naming: {
         entry: "[dir]-[name].[ext]", // Avoid having a sub directory as source maps got lost... Might be fixable.
         chunk: "[name]-[hash].[ext]",

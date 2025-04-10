@@ -43,8 +43,8 @@ type BuildConfig = BunBuildConfig & {
 
 export async function build(config: BuildConfig) {
     let { watch, onBuild, sourcemap = "external", ...rest } = config;
-    if (watch && config.sourcemap !== "external") {
-        console.error("Watch requires external sourcemap, setting to external");
+    if (watch && config.sourcemap !== "external" && config.sourcemap !== "linked") {
+        console.error("Watch requires external / linked sourcemap to be set.");
     }
     let output = await Bun.build({ ...rest, sourcemap });
 

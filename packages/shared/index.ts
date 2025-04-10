@@ -1,5 +1,2 @@
-import { hello } from "./test/test";
-
-console.log("abcdef");
-
-export { hello };
+export * from "./viewport";
+export * from "./ticker";
