@@ -4,7 +4,7 @@ import { build } from "./scripts/build";
 export const buildConfig: BuildConfig = {
     entrypoints: ["./packages/shared/index.ts", "./packages/vue/index.ts"],
     outdir: "./dist",
-    target: "browser",
+    target: "node",
     format: "esm",
     minify: true,
     external: ["vue", "react", "gsap"],

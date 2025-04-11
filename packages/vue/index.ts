@@ -1,1 +1,1 @@
-export * as Composables from "./composables";
+export * from "./composables";

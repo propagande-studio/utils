@@ -5,9 +5,7 @@
         "@types/throttle-debounce": "^5.0.2"
     },
     "dependencies": {
-        "throttle-debounce": "^5.0.2"
-    },
-    "peerDependencies": {
+        "throttle-debounce": "^5.0.2",
         "gsap": "^3.12.7"
-    }
+    },
 }

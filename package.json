@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -13,6 +13,7 @@
         "build:watch": "concurrently --kill-others \"bun ./build.watch\" \"bun run types --watch --preserveWatchOutput\"",
         "types": "tsc packages/{shared,vue}/index.ts --skipLibCheck true --declaration --emitDeclarationOnly --outDir dist"
     },
+    "sideEffects": false,
     "workspaces": [
         "packages/*"
     ],
@@ -21,22 +22,36 @@
         "concurrently": "^9.1.2"
     },
     "peerDependencies": {
-        "typescript": "^5"
+        "typescript": "^5",
+        "vue": "^3",
+        "gsap": "^3.12"
+    },
+    "peerDependenciesMeta": {
+        "vue": {
+            "optional": true
+        }
     },
     "files": [
         "dist"
     ],
-    "resolutions": {
-        "bun-types": "canary"
-    },
+    "main": "./dist/shared-index.js",
+    "module": "./dist/shared-index.js",
+    "types": "./dist/shared/index.d.ts",
     "exports": {
+        ".": {
+            "types": "./dist/shared/index.d.ts",
+            "import": "./dist/shared-index.js",
+            "default": "./dist/shared-index.js"
+        },
         "./shared": {
             "types": "./dist/shared/index.d.ts",
-            "import": "./dist/shared-index.js"
+            "import": "./dist/shared-index.js",
+            "default": "./dist/shared-index.js"
         },
         "./vue": {
             "types": "./dist/vue/index.d.ts",
-            "import": "./dist/vue-index.js"
+            "import": "./dist/vue-index.js",
+            "default": "./dist/vue-index.js"
         }
     }
 }
