@@ -1,35 +1,30 @@
 name: Create Release on package.json Update
 
 on:
-  push:
-    paths:
-      - 'package.json'
+    push:
+        paths:
+            - "package.json"
 
 jobs:
-  create-release:
-    runs-on: ubuntu-latest
+    create-release:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            packages: write
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+            - name: Get package version
+              id: get_version
+              run: |
+                  version=$(jq -r .version package.json)
+                  echo "version=$version" >> $GITHUB_ENV
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-
-      - name: Get package version
-        id: get_version
-        run: |
-          version=$(jq -r .version package.json)
-          echo "version=$version" >> $GITHUB_ENV
-
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: "v${{ env.version }}"
-          release_name: "Release v${{ env.version }}"
-          draft: false
-          prerelease: false
+            - name: Create GitHub Release
+              uses: elgohr/Github-Release-Action@v5
+              env:
+                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  title: "Release v${{ env.version }}"
+                  tag: "v${{ env.version }}"
+                  prerelease: false
