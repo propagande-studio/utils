@@ -1,4 +1,4 @@
-import { gsap } from "gsap/all";
+import { gsap } from "gsap";
 
 export interface TickerHandler {
     (time: { et: number; dt: number }): void;
