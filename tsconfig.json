@@ -27,9 +27,6 @@
         "noUnusedParameters": false,
         "noPropertyAccessFromIndexSignature": false,
 
-        // Type checking
-        "typeRoots": ["./types", "./node_modules/@types"],
-
         // Paths
         "paths": {
             "@propagande-studio/utils/*": ["./packages/*"]

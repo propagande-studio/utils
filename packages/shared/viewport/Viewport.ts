@@ -1,4 +1,4 @@
-import ScrollTrigger from "gsap/ScrollTrigger.js";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { throttle } from "throttle-debounce";
 
 export interface ViewportHandler {
