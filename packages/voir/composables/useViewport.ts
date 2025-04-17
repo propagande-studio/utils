@@ -1,6 +1,6 @@
-import { getViewport, type ViewportHandler } from "shared/viewport/Viewport";
+import { getViewport, type ViewportHandler } from "@propagande-studio/utils/shared";
 import { useSafeClient } from "./useSafeClient";
-import { computed, effectScope, onScopeDispose, ref, watch, type Ref } from "vue";
+import { computed, effectScope, onScopeDispose, reactive, ref, shallowReactive, watch, type Ref } from "vue";
 
 export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: boolean) {
     return useSafeClient(() => {
@@ -71,6 +71,22 @@ export function useIsLg() {
     });
 
     return isLg;
+}
+
+export function useSize() {
+    const size = reactive({ width: 0, height: 0 });
+
+    useResize(
+        ({ width, height }) => {
+            console.log("resize");
+            size.width = width;
+            size.height = height;
+        },
+        -1,
+        true
+    );
+
+    return size;
 }
 
 export function useIsPointerFine() {

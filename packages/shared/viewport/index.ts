@@ -1,1 +1,1 @@
-export { getViewport } from "./Viewport";
+export { getViewport, type ViewportHandler } from "./Viewport";

@@ -1,6 +1,6 @@
-import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onWatcherCleanup } from "vue";
+import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onScopeDispose, onWatcherCleanup } from "vue";
 
-export const useSafeClient = (callback: () => void, options?: { detached?: boolean; unsafe?: boolean }) => {
+export const useSafeClient = (callback: () => () => void | void, options?: { detached?: boolean; unsafe?: boolean }) => {
     const detached = options?.detached || false;
     const unsafe = options?.unsafe || false; // for directives
 
@@ -21,12 +21,20 @@ export const useSafeClient = (callback: () => void, options?: { detached?: boole
     if (currentInstance && !currentInstance.isMounted && !currentWatcher) {
         onMounted(() => {
             scope.run(() => {
-                callback();
+                const cleanup = callback();
+
+                onScopeDispose(() => {
+                    cleanup?.();
+                });
             });
         });
     } else {
         scope.run(() => {
-            callback();
+            const cleanup = callback();
+
+            onScopeDispose(() => {
+                cleanup?.();
+            });
         });
     }
 

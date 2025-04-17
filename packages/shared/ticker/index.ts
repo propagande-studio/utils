@@ -1,1 +1,1 @@
-export { getTicker } from "./Ticker";
+export { getTicker, type TickerHandler } from "./Ticker";

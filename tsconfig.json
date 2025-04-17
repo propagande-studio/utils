@@ -1,4 +1,5 @@
 {
+    "exclude": ["dist"],
     "compilerOptions": {
         // Environment setup & latest features
         "lib": ["esnext", "DOM"],
@@ -25,6 +26,13 @@
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "noPropertyAccessFromIndexSignature": false,
-        "types": ["gsap/types"]
+
+        // Type checking
+        "types": ["gsap/types"],
+
+        // Paths
+        "paths": {
+            "@propagande-studio/utils/*": ["./packages/*"]
+        }
     }
 }

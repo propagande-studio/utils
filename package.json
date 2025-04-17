@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.4-alpha.2",
+    "version": "0.0.5",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -9,11 +9,10 @@
     },
     "type": "module",
     "scripts": {
-        "build": "bun ./build && bun run types",
+        "build": "bun ./build && bun run types:all",
         "build:watch": "concurrently --kill-others \"bun ./build.watch\" \"bun run types --watch --preserveWatchOutput\"",
-        "types": "tsc packages/{shared,vue}/index.ts --skipLibCheck true --declaration --emitDeclarationOnly --outDir dist"
+        "types": "tsc --project tsconfig.types.json"
     },
-    "sideEffects": false,
     "workspaces": [
         "packages/*"
     ],
@@ -23,13 +22,7 @@
     },
     "peerDependencies": {
         "typescript": "^5",
-        "vue": "^3",
         "gsap": "^3.12"
-    },
-    "peerDependenciesMeta": {
-        "vue": {
-            "optional": true
-        }
     },
     "files": [
         "dist"
@@ -48,10 +41,10 @@
             "import": "./dist/shared-index.js",
             "default": "./dist/shared-index.js"
         },
-        "./vue": {
-            "types": "./dist/vue/index.d.ts",
-            "import": "./dist/vue-index.js",
-            "default": "./dist/vue-index.js"
+        "./voir": {
+            "types": "./dist/voir/index.d.ts",
+            "import": "./dist/voir-index.js",
+            "default": "./dist/voir-index.js"
         }
     }
 }
