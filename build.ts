@@ -7,8 +7,7 @@ export const buildConfig: BuildConfig = {
     target: "browser",
     format: "esm",
     minify: false,
-    packages: "external",
-    external: ["vue", "react", "gsap", "shared"],
+    external: ["vue", "react", "gsap", "@propagande-studio/utils"],
     sourcemap: "linked",
     naming: {
         entry: "[dir]-[name].[ext]", // Avoid having a sub directory as source maps got lost... Might be fixable.
