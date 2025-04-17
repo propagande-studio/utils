@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.5-fix.1",
+    "version": "0.0.5",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -9,7 +9,7 @@
     },
     "type": "module",
     "scripts": {
-        "build": "bun ./build && bun run types:all",
+        "build": "bun ./build && bun run types",
         "build:watch": "concurrently --kill-others \"bun ./build.watch\" \"bun run types --watch --preserveWatchOutput\"",
         "types": "tsc --project tsconfig.types.json"
     },
