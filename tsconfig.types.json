@@ -7,5 +7,6 @@
         "outDir": "./dist",
         "rootDir": "./packages"
     },
-    "include": ["packages/shared/index.ts", "packages/voir/index.ts"]
+    "include": ["types"],
+    "files": ["packages/shared/index.ts", "packages/voir/index.ts"]
 }

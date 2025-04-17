@@ -28,7 +28,7 @@
         "noPropertyAccessFromIndexSignature": false,
 
         // Type checking
-        "types": ["gsap/types"],
+        "typeRoots": ["./types", "./node_modules/@types"],
 
         // Paths
         "paths": {
