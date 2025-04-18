@@ -8,14 +8,18 @@
         "concurrently": "^9.1.2",
       },
       "peerDependencies": {
-        "gsap": "^3.12",
         "typescript": "^5",
+      },
+    },
+    "packages/gsap": {
+      "name": "pp-gsap",
+      "dependencies": {
+        "gsap": "npm:@gsap/shockingly",
       },
     },
     "packages/shared": {
       "name": "shared",
       "dependencies": {
-        "gsap": "^3.12.7",
         "throttle-debounce": "^5.0.2",
       },
       "devDependencies": {
@@ -24,8 +28,7 @@
     },
     "packages/voir": {
       "name": "voir",
-      "dependencies": {
-        "shared": "workspace:*",
+      "peerDependencies": {
         "vue": "^3.5.13",
       },
     },
@@ -95,7 +98,7 @@
 
     "get-caller-file": ["get-caller-file@2.0.5", "", {}, "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg=="],
 
-    "gsap": ["gsap@3.12.7", "", {}, "sha512-V4GsyVamhmKefvcAKaoy0h6si0xX7ogwBoBSs2CTJwt7luW0oZzC0LhdkyuKV8PJAXr7Yaj8pMjCKD4GJ+eEMg=="],
+    "gsap": ["@gsap/shockingly@3.12.7", "https://npm.greensock.com/@gsap%2fshockingly/-/shockingly-3.12.7.tgz", {}, "sha512-uvbaCkQCdjy7bNvzBWE21dVFa32uqBzCZfYgNRikcFn2SqyQ0/fDUJkfAtme9tdkv3n+niBpdGraLjVA26tTWQ=="],
 
     "has-flag": ["has-flag@4.0.0", "", {}, "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="],
 
@@ -110,6 +113,8 @@
     "picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
 
     "postcss": ["postcss@8.5.3", "", { "dependencies": { "nanoid": "^3.3.8", "picocolors": "^1.1.1", "source-map-js": "^1.2.1" } }, "sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A=="],
+
+    "pp-gsap": ["pp-gsap@workspace:packages/gsap"],
 
     "require-directory": ["require-directory@2.1.1", "", {}, "sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q=="],
 

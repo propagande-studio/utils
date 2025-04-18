@@ -7,5 +7,5 @@
         "outDir": "./dist",
         "rootDir": "./packages"
     },
-    "files": ["packages/shared/index.ts", "packages/voir/index.ts"]
+    "files": ["packages/shared/index.ts", "packages/voir/index.ts", "packages/gsap/index.ts"]
 }

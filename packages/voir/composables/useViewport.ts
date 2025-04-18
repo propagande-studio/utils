@@ -1,6 +1,6 @@
 import { getViewport, type ViewportHandler } from "@propagande-studio/utils/shared";
 import { useSafeClient } from "./useSafeClient";
-import { computed, effectScope, onScopeDispose, reactive, ref, shallowReactive, watch, type Ref } from "vue";
+import { computed, effectScope, onScopeDispose, reactive, ref, watch, type Ref } from "vue";
 
 export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: boolean) {
     return useSafeClient(() => {

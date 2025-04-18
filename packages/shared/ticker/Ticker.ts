@@ -1,4 +1,4 @@
-import { gsap } from "gsap";
+import { gsap } from "@propagande-studio/utils/gsap";
 
 export interface TickerHandler {
     (time: { et: number; dt: number }): void;

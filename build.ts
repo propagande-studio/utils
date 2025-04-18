@@ -2,12 +2,12 @@ import type { BuildConfig } from "bun";
 import { build } from "./scripts/build";
 
 export const buildConfig: BuildConfig = {
-    entrypoints: ["./packages/shared/index.ts", "./packages/voir/index.ts"],
+    entrypoints: ["./packages/shared/index.ts", "./packages/voir/index.ts", "./packages/gsap/index.ts"],
     outdir: "./dist",
     target: "browser",
     format: "esm",
     minify: false,
-    external: ["vue", "react", "gsap", "@propagande-studio/utils"],
+    external: ["vue", "react", "@propagande-studio/utils"],
     sourcemap: "linked",
     naming: {
         entry: "[dir]-[name].[ext]", // Avoid having a sub directory as source maps got lost... Might be fixable.

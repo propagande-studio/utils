@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.6-fix.3",
+    "version": "0.0.6-fix.4",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -21,8 +21,7 @@
         "concurrently": "^9.1.2"
     },
     "peerDependencies": {
-        "typescript": "^5",
-        "gsap": "^3.12"
+        "typescript": "^5"
     },
     "files": [
         "dist"
@@ -45,6 +44,11 @@
             "types": "./dist/voir/index.d.ts",
             "import": "./dist/voir-index.js",
             "default": "./dist/voir-index.js"
+        },
+        "./gsap": {
+            "types": "./dist/gsap/index.d.ts",
+            "import": "./dist/gsap-index.js",
+            "default": "./dist/gsap-index.js"
         }
     }
 }
