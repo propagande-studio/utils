@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -24,7 +24,8 @@
         "typescript": "^5"
     },
     "files": [
-        "dist"
+        "dist",
+        "packages"
     ],
     "main": "./dist/shared-index.js",
     "module": "./dist/shared-index.js",
