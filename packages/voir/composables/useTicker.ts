@@ -1,15 +1,16 @@
 import { type TickerHandler, getTicker } from "@propagande-studio/utils/shared";
 import { useSafeClient } from "./useSafeClient";
+import { onScopeDispose } from "vue";
 
 export function useFrame(fn: TickerHandler, priority?: number) {
-    const scope = useSafeClient(() => {
+    return useSafeClient(() => {
         const ticker = getTicker();
+
         ticker.add(fn, priority);
 
-        return () => {
+        onScopeDispose(() => {
+            console.log("scope dispose");
             ticker.remove(fn);
-        };
+        });
     });
-
-    return scope;
 }
