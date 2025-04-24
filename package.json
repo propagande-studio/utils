@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -51,8 +51,5 @@
             "import": "./dist/gsap-index.js",
             "default": "./dist/gsap-index.js"
         }
-    },
-    "dependencies": {
-        "gsap": "npm:@gsap/shockingly"
     }
 }

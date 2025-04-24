@@ -1,4 +1,7 @@
 {
     "name": "pp-gsap",
-    "type": "module"
+    "type": "module",
+    "dependencies": {
+        "gsap": "npm:@gsap/shockingly"
+    }
 }
