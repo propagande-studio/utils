@@ -3,6 +3,9 @@
   "workspaces": {
     "": {
       "name": "@propagande-studio/utils",
+      "dependencies": {
+        "gsap": "npm:@gsap/shockingly",
+      },
       "devDependencies": {
         "@types/bun": "latest",
         "concurrently": "^9.1.2",
@@ -13,9 +16,6 @@
     },
     "packages/gsap": {
       "name": "pp-gsap",
-      "dependencies": {
-        "gsap": "npm:@gsap/shockingly",
-      },
     },
     "packages/shared": {
       "name": "shared",
