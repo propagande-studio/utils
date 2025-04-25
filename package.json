@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.10",
+    "version": "0.0.13",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -16,6 +16,9 @@
     "workspaces": [
         "packages/*"
     ],
+    "dependencies": {
+        "gsap": "npm:@gsap/shockingly"
+    },
     "devDependencies": {
         "@types/bun": "latest",
         "concurrently": "^9.1.2"
