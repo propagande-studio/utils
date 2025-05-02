@@ -50,14 +50,10 @@ export class Ticker {
 
 let ticker: Ticker | null = null;
 
-const isClient = typeof window !== "undefined";
-
 export const getTicker = () => {
-    if (!ticker && isClient) {
+    if (!ticker) {
         ticker = new Ticker();
     }
-
-    if (!ticker) throw "Ticker called on server";
 
     return ticker as Ticker;
 };
