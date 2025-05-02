@@ -9,7 +9,6 @@ export function useFrame(fn: TickerHandler, priority?: number) {
         ticker.add(fn, priority);
 
         onScopeDispose(() => {
-            console.log("scope dispose");
             ticker.remove(fn);
         });
     });
