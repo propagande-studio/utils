@@ -1,14 +1,37 @@
 import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onScopeDispose, onWatcherCleanup } from "vue";
 
-export const useSafeClient = (callback: () => () => void | void, options?: { detached?: boolean; unsafe?: boolean }) => {
+export enum EffectMode {
+    watcher = "watcher",
+    instance = "instance",
+    scope = "scope",
+}
+
+export const useSafeClient = (callback: () => void, options?: { detached?: boolean; unsafe?: boolean; forceMode?: EffectMode }) => {
     const detached = options?.detached || false;
     const unsafe = options?.unsafe || false; // for directives
+    const forceMode = options?.forceMode || false; // for directives
 
     const currentScope = getCurrentScope(),
         currentWatcher = getCurrentWatcher(),
         currentInstance = getCurrentInstance();
 
-    if (!unsafe && !detached && !currentScope && !currentWatcher && !currentInstance) throw "useSafeClient is outside a scope or watcher";
+    switch (forceMode) {
+        case EffectMode.instance: {
+            if (!currentInstance) throw "useSafeClient is called outside an instance";
+            break;
+        }
+        case EffectMode.scope: {
+            if (!currentScope) throw "useSafeClient is called outside a scope";
+            break;
+        }
+        case EffectMode.watcher: {
+            if (!currentWatcher) throw "useSafeClient is called outside a watcher";
+            break;
+        }
+        default: {
+            if (!unsafe && !detached && !currentScope && !currentWatcher && !currentInstance) throw "useSafeClient is called outside a scope or watcher";
+        }
+    }
 
     const scope = effectScope(detached);
 
@@ -21,20 +44,12 @@ export const useSafeClient = (callback: () => () => void | void, options?: { det
     if (currentInstance && !currentInstance.isMounted && !currentWatcher) {
         onMounted(() => {
             scope.run(() => {
-                const cleanup = callback();
-
-                onScopeDispose(() => {
-                    cleanup?.();
-                });
+                return callback();
             });
         });
     } else {
         scope.run(() => {
-            const cleanup = callback();
-
-            onScopeDispose(() => {
-                cleanup?.();
-            });
+            return callback();
         });
     }
 

@@ -1,18 +1,23 @@
 import { effectScope, getCurrentScope, onScopeDispose, capitalize } from "vue";
 import { getViewport } from "@propagande-studio/utils";
 import { gsap } from "@propagande-studio/utils/gsap";
-import { useSafeClient } from "./useSafeClient";
+import { EffectMode, useSafeClient } from "./useSafeClient";
 
-export const useGSAPContext = (callback?: () => void, revert: boolean = false) => {
-    return useSafeClient(() => {
-        const ctx = gsap.context(() => {
-            return callback?.();
-        });
+export const useGSAPContext = (callback?: () => void, revert: boolean = false, forceMode?: EffectMode) => {
+    return useSafeClient(
+        () => {
+            const ctx = gsap.context(() => {
+                return callback?.();
+            });
 
-        return () => {
-            ctx.kill(revert);
-        };
-    });
+            onScopeDispose(() => {
+                ctx.kill(revert);
+            });
+
+            return ctx;
+        },
+        { forceMode }
+    );
 };
 
 export const useGSAPMatchMedia = (callback?: (ctx: gsap.Context) => void, revert: boolean = false) => {

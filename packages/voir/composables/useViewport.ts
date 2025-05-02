@@ -5,11 +5,12 @@ import { computed, effectScope, onScopeDispose, reactive, ref, watch, type Ref }
 export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: boolean) {
     return useSafeClient(() => {
         const viewport = getViewport();
+
         viewport.add(fn, priority, noThrottle, true);
 
-        return () => {
+        onScopeDispose(() => {
             viewport.remove(fn);
-        };
+        });
     });
 }
 
