@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.10",
+    "version": "0.0.16",
     "description": "PROPAGANDE utils.",
     "author": "propagande.studio",
     "repository": {
@@ -21,7 +21,8 @@
         "concurrently": "^9.1.2"
     },
     "peerDependencies": {
-        "typescript": "^5"
+        "typescript": "^5",
+        "gsap": "^3.13"
     },
     "files": [
         "dist",

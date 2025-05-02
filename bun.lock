@@ -8,14 +8,12 @@
         "concurrently": "^9.1.2",
       },
       "peerDependencies": {
+        "gsap": "^3",
         "typescript": "^5",
       },
     },
     "packages/gsap": {
       "name": "pp-gsap",
-      "dependencies": {
-        "gsap": "npm:@gsap/shockingly",
-      },
     },
     "packages/shared": {
       "name": "shared",
@@ -98,7 +96,7 @@
 
     "get-caller-file": ["get-caller-file@2.0.5", "", {}, "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg=="],
 
-    "gsap": ["@gsap/shockingly@3.12.7", "https://npm.greensock.com/@gsap%2fshockingly/-/shockingly-3.12.7.tgz", {}, "sha512-uvbaCkQCdjy7bNvzBWE21dVFa32uqBzCZfYgNRikcFn2SqyQ0/fDUJkfAtme9tdkv3n+niBpdGraLjVA26tTWQ=="],
+    "gsap": ["gsap@3.13.0", "", {}, "sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw=="],
 
     "has-flag": ["has-flag@4.0.0", "", {}, "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="],
 

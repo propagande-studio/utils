@@ -9,7 +9,6 @@ import InertiaPlugin from "gsap/InertiaPlugin";
 import SplitText from "gsap/SplitText";
 import GSDevTools from "gsap/GSDevTools";
 import ScrollSmoother from "gsap/ScrollSmoother";
-import CustomBounce from "gsap/CustomBounce";
 import DrawSVGPlugin from "gsap/DrawSVGPlugin";
 import MorphSVGPlugin from "gsap/MorphSVGPlugin";
 import Observer from "gsap/Observer";
@@ -27,7 +26,6 @@ export {
     GSDevTools,
     ScrollSmoother,
     MotionPathHelper,
-    CustomBounce,
     DrawSVGPlugin,
     MorphSVGPlugin,
     Observer,
