@@ -67,8 +67,8 @@ const Rand = {
 
 const Arr = {
     /** Create an Array of n element */
-    create: (ArrayLength: number) => {
-        return [...Array(ArrayLength).keys()];
+    create: <T>(ArrayLength: number) => {
+        return [...Array(ArrayLength).keys()] as Array<T>;
     },
     /** shuffle an Array, in place */
     shuffle: <T>(array: Array<T>) => {
