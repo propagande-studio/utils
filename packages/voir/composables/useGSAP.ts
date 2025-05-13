@@ -23,10 +23,11 @@ export const useGSAPContext = (callback?: () => void, revert: boolean = false, f
 export const useGSAPMatchMedia = (callback?: (ctx: gsap.Context) => void, revert: boolean = false) => {
     if (!getCurrentScope()) throw new Error("useGSAPMatchMedia must be called within a scope");
 
-    const scope = effectScope();
     const viewport = getViewport();
 
-    return scope.run(() => {
+    return useSafeClient(() => {
+        const scope = effectScope();
+
         const mm = gsap.matchMedia();
 
         const conditions = viewport.breakpoints.reduce((conditions, breakpoint) => {
