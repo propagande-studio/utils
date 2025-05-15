@@ -79,12 +79,29 @@ const Arr = {
         return array;
     },
     rand: Rand.arr,
-    shift<T>(arr: T[], newFirstIndex: number): T[] {
+    shift: <T>(arr: T[], newFirstIndex: number): T[] => {
         if (arr.length === 0 || newFirstIndex < 0 || newFirstIndex >= arr.length) {
             return arr;
         }
 
         return [...arr.slice(newFirstIndex), ...arr.slice(0, newFirstIndex)];
+    },
+    spliceNth: <T>(arr: T[], nth: number): T[] => {
+        if (nth <= 0) throw new Error("Step size must be greater than 0");
+
+        const removed: T[] = [];
+        let writeIndex = 0;
+
+        for (let readIndex = 0; readIndex < arr.length; readIndex++) {
+            if (readIndex % nth === 0) {
+                removed.push(arr[readIndex]!);
+            } else {
+                arr[writeIndex++] = arr[readIndex]!;
+            }
+        }
+
+        arr.length = writeIndex;
+        return removed;
     },
 };
 
