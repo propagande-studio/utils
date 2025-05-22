@@ -1,5 +1,5 @@
 import { ScrollTrigger } from "@propagande-studio/utils/gsap";
-import { throttle } from "throttle-debounce";
+import { throttle } from "../throttle-debounce";
 
 export interface ViewportHandler {
     (size: { width: number; height: number }, viewport: Viewport): void;
