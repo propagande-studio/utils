@@ -1,4 +1,4 @@
-import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onScopeDispose, onWatcherCleanup } from "vue";
+import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onScopeDispose, onWatcherCleanup, shallowRef } from "vue";
 
 export enum EffectMode {
     watcher = "watcher",
@@ -6,10 +6,12 @@ export enum EffectMode {
     scope = "scope",
 }
 
-export const useSafeClient = (callback: () => void, options?: { detached?: boolean; unsafe?: boolean; forceMode?: EffectMode }) => {
+export const useSafeClient = <T>(callback: () => T, options?: { detached?: boolean; unsafe?: boolean; forceMode?: EffectMode }) => {
     const detached = options?.detached || false;
     const unsafe = options?.unsafe || false; // for directives
     const forceMode = options?.forceMode || false; // for directives
+
+    const callbackResult = shallowRef<T | null>(null);
 
     const currentScope = getCurrentScope(),
         currentWatcher = getCurrentWatcher(),
@@ -43,15 +45,15 @@ export const useSafeClient = (callback: () => void, options?: { detached?: boole
 
     if (currentInstance && !currentInstance.isMounted && !currentWatcher) {
         onMounted(() => {
-            scope.run(() => {
+            callbackResult.value = scope.run(() => {
                 return callback();
             });
         });
     } else {
-        scope.run(() => {
+        callbackResult.value = scope.run(() => {
             return callback();
         });
     }
 
-    return scope;
+    return callbackResult;
 };
