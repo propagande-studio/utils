@@ -3,11 +3,11 @@ import { getViewport } from "@propagande-studio/utils";
 import { gsap } from "@propagande-studio/utils/gsap";
 import { EffectMode, useSafeClient } from "./useSafeClient";
 
-export const useGSAPContext = (callback?: () => void, revert: boolean = false, forceMode?: EffectMode) => {
+export const useGSAPContext = (callback?: (ctx: gsap.Context) => void, revert: boolean = false, forceMode?: EffectMode) => {
     return useSafeClient(
         () => {
-            const ctx = gsap.context(() => {
-                return callback?.();
+            const ctx = gsap.context((_ctx) => {
+                return callback?.(_ctx);
             });
 
             onScopeDispose(() => {
