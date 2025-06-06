@@ -6,8 +6,7 @@ export enum EffectMode {
     scope = "scope",
 }
 
-export const useSafeClient = <T>(callback: () => T, options?: { detached?: boolean; unsafe?: boolean; forceMode?: EffectMode }) => {
-    const detached = options?.detached || false;
+export const useSafeClient = <T>(callback: () => T, options?: { unsafe?: boolean; forceMode?: EffectMode }) => {
     const unsafe = options?.unsafe || false; // for directives
     const forceMode = options?.forceMode || false; // for directives
 
@@ -20,40 +19,74 @@ export const useSafeClient = <T>(callback: () => T, options?: { detached?: boole
     switch (forceMode) {
         case EffectMode.instance: {
             if (!currentInstance) throw "useSafeClient is called outside an instance";
+
+            const scope = effectScope();
+
+            if (!currentInstance.isMounted) {
+                onMounted(() => {
+                    callbackResult.value = scope.run(() => {
+                        return callback();
+                    });
+                });
+            } else {
+                callbackResult.value = scope.run(() => {
+                    return callback();
+                });
+            }
+
             break;
         }
         case EffectMode.scope: {
             if (!currentScope) throw "useSafeClient is called outside a scope";
+
+            const scope = effectScope();
+
+            callbackResult.value = scope.run(() => {
+                return callback();
+            });
+
             break;
         }
         case EffectMode.watcher: {
             if (!currentWatcher) throw "useSafeClient is called outside a watcher";
-            break;
-        }
-        default: {
-            if (!unsafe && !detached && !currentScope && !currentWatcher && !currentInstance) throw "useSafeClient is called outside a scope or watcher";
-        }
-    }
 
-    const scope = effectScope(detached);
+            const scope = effectScope();
 
-    if (currentWatcher) {
-        onWatcherCleanup(() => {
-            scope.stop();
-        });
-    }
+            onWatcherCleanup(() => {
+                scope.stop();
+            });
 
-    if (currentInstance && !currentInstance.isMounted && !currentWatcher) {
-        onMounted(() => {
             callbackResult.value = scope.run(() => {
                 return callback();
             });
-        });
-    } else {
-        callbackResult.value = scope.run(() => {
-            return callback();
-        });
-    }
 
-    return callbackResult;
+            break;
+        }
+        default:
+            {
+                if (!unsafe && !currentScope && !currentWatcher && !currentInstance) throw "useSafeClient is called outside a scope or watcher";
+
+                const scope = effectScope();
+
+                if (currentWatcher) {
+                    onWatcherCleanup(() => {
+                        scope.stop();
+                    });
+                }
+
+                if (currentInstance && !currentInstance.isMounted && !currentWatcher) {
+                    onMounted(() => {
+                        callbackResult.value = scope.run(() => {
+                            return callback();
+                        });
+                    });
+                } else {
+                    callbackResult.value = scope.run(() => {
+                        return callback();
+                    });
+                }
+            }
+
+            return callbackResult;
+    }
 };
