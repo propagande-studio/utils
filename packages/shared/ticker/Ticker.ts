@@ -3,7 +3,7 @@ export interface TickerHandler {
 }
 
 export class Ticker {
-    private updateFns: { fn: TickerHandler; priority: number; pt: number; et: number; dt: number }[];
+    private updateFns: { fn: TickerHandler; priority: number; pt: number; et: number; dt: number; once: boolean }[];
     private animationFrameId: number | null = null;
     private lastTime: number = 0;
     private startTime: number = 0;
@@ -36,13 +36,17 @@ export class Ticker {
             u.dt = u.et - u.pt;
 
             u.fn({ et: u.et, dt: u.dt });
+
+            if (u.once) {
+                this.remove(u.fn);
+            }
         });
 
         this.animationFrameId = requestAnimationFrame(this.tick);
     };
 
-    add(fn: TickerHandler, priority = 0) {
-        const listener = { fn, priority, pt: 0, et: 0, dt: 0 };
+    add(fn: TickerHandler, priority = 0, once = false) {
+        const listener = { fn, priority, pt: 0, et: 0, dt: 0, once };
 
         this.updateFns.push(listener);
         this.updateFns.sort((a, b) => a.priority - b.priority);
