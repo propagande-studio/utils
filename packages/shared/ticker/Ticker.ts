@@ -8,6 +8,7 @@ export class Ticker {
     private gsapTicker: typeof gsap.ticker;
     private updateFns: { fn: TickerHandler; priority: number }[];
     time: number = 0;
+    intervalId: ReturnType<typeof setInterval> | undefined;
 
     constructor() {
         this.gsapTicker = gsap.ticker;
@@ -38,13 +39,23 @@ export class Ticker {
         }
     }
 
+    onVisibilityChange = () => {
+        clearInterval(this.intervalId);
+
+        if (document.hidden) {
+            this.intervalId = setInterval(gsap.ticker.tick, 500);
+        }
+    };
+
     start() {
         this.stop();
         this.gsapTicker.add(this.update);
+        document.addEventListener("visibilitychange", this.onVisibilityChange);
     }
 
     stop() {
         this.gsapTicker.remove(this.update);
+        document.removeEventListener("visibilitychange", this.onVisibilityChange);
     }
 }
 
