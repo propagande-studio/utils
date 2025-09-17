@@ -1,14 +1,37 @@
 import { type TickerHandler, getTicker } from "@propagande-studio/utils/shared";
 import { useSafeClient } from "./useSafeClient";
-import { onScopeDispose } from "vue";
+import { onScopeDispose, toRef, type MaybeRef } from "vue";
 
-export function useFrame(fn: TickerHandler, priority?: number, once?: boolean) {
+export function useFrame(fn: TickerHandler, priority?: number, once?: boolean, observedElement?: MaybeRef<HTMLElement | null | undefined>) {
+    if (observedElement) {
+        observedElement = toRef(observedElement);
+    }
+
     return useSafeClient(() => {
         const ticker = getTicker();
 
-        ticker.add(fn, priority, once);
+        let observer: IntersectionObserver | null = null;
+
+        if (observedElement && observedElement.value) {
+            const intersectionCallback: IntersectionObserverCallback = (entries) => {
+                const entry = entries[0];
+                if (!entry) return;
+
+                if (entry.isIntersecting) {
+                    ticker.add(fn, priority, once);
+                } else {
+                    ticker.remove(fn);
+                }
+            };
+
+            observer = new IntersectionObserver(intersectionCallback);
+            observer.observe(observedElement.value);
+        } else {
+            ticker.add(fn, priority, once);
+        }
 
         onScopeDispose(() => {
+            observer?.disconnect();
             ticker.remove(fn);
         });
     });
