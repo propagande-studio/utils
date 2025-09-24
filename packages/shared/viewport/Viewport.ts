@@ -124,16 +124,27 @@ export class Viewport {
 
     setProperties() {
         if (this.isMobile) {
-            document.documentElement.style.setProperty("--vw", document.documentElement.clientWidth * 0.01 + "px");
-            document.documentElement.style.setProperty("--vh", `${(window.screen.height || window.innerHeight) / 100}px`);
-            document.documentElement.style.setProperty("--dvh", window.innerHeight * 0.01 + "px");
-            document.documentElement.style.setProperty("--svh", document.documentElement.clientHeight * 0.01 + "px");
-            document.documentElement.style.setProperty("--lvh", `${(window.screen.height || window.innerHeight) / 100}px`);
+            const proxyEl = document.createElement("div");
+            proxyEl.style.cssText = `position: fixed; top: 0;`;
+            document.body.appendChild(proxyEl);
+
+            proxyEl.style.height = "100vh";
+            document.documentElement.style.setProperty("--vh", `${proxyEl.offsetHeight / 100}px`);
+
+            proxyEl.style.height = "100dvh";
+            document.documentElement.style.setProperty("--dvh", `${proxyEl.offsetHeight / 100}px`);
+
+            proxyEl.style.height = "100svh";
+            document.documentElement.style.setProperty("--svh", `${proxyEl.offsetHeight / 100}px`);
+
+            proxyEl.style.height = "100lvh";
+            document.documentElement.style.setProperty("--lvh", `${proxyEl.offsetHeight / 100}px`);
+
+            document.body.removeChild(proxyEl);
 
             return;
         }
 
-        document.documentElement.style.setProperty("--vw", "1vw");
         document.documentElement.style.setProperty("--vh", "1vh");
         document.documentElement.style.setProperty("--dvh", "1dvh");
         document.documentElement.style.setProperty("--svh", "1svh");
