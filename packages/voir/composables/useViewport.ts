@@ -1,6 +1,7 @@
 import { getViewport, type ViewportHandler } from "@propagande-studio/utils/shared";
 import { useSafeClient } from "./useSafeClient";
 import { computed, effectScope, onScopeDispose, reactive, ref, watch, type Ref } from "vue";
+import { createSharedComposable } from "./useSharedComposable";
 
 export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: boolean) {
     return useSafeClient(() => {
@@ -25,7 +26,7 @@ export function watchBreakpoint(bp: string, fn: (active: boolean) => void) {
         },
         {
             flush: "sync",
-        }
+        },
     );
 
     const handler = () => {
@@ -84,11 +85,32 @@ export function useSize() {
             size.height = height;
         },
         -1,
-        true
+        true,
     );
 
     return size;
 }
+
+export const useScroll = createSharedComposable(function useScroll({ offset = 0 }: { offset?: number } = {}) {
+    const scroll = ref(0);
+
+    console.log("CREATED");
+
+    useSafeClient(() => {
+        const onScroll = () => {
+            scroll.value = window.scrollY || document.documentElement.scrollTop;
+        };
+
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScroll();
+
+        onScopeDispose(() => {
+            window.removeEventListener("scroll", onScroll);
+        });
+    });
+
+    return scroll;
+});
 
 export function useIsPointerFine() {
     const isFine = ref(false);

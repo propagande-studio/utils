@@ -9,9 +9,14 @@ function absolute(path: string) {
 }
 
 async function getArtifactSources(artifact: BuildArtifact) {
-    const sourcemap = await artifact.sourcemap?.json();
-    if (!sourcemap) return [];
-    return (sourcemap.sources as string[]).map((source) => join(dirname(artifact.path), source));
+    try {
+        await fs.promises.access(artifact.path, fs.constants.R_OK);
+        const sourcemap = await artifact.sourcemap?.json();
+        if (!sourcemap) return [];
+        return (sourcemap.sources as string[]).map((source) => join(dirname(artifact.path), source));
+    } catch (err) {
+        return [];
+    }
 }
 
 async function getOutputSources(output: BuildOutput) {
