@@ -94,8 +94,6 @@ export function useSize() {
 export const useScroll = createSharedComposable(function useScroll({ offset = 0 }: { offset?: number } = {}) {
     const scroll = ref(0);
 
-    console.log("CREATED");
-
     useSafeClient(() => {
         const onScroll = () => {
             scroll.value = window.scrollY || document.documentElement.scrollTop;
