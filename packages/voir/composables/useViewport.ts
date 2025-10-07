@@ -80,7 +80,6 @@ export function useSize() {
 
     useResize(
         ({ width, height }) => {
-            console.log("resize");
             size.width = width;
             size.height = height;
         },
