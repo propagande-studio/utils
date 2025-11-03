@@ -1,16 +1,28 @@
 import { getViewport, type ViewportHandler } from "@propagande-studio/utils/shared";
 import { useSafeClient } from "./useSafeClient";
-import { computed, effectScope, onScopeDispose, reactive, ref, watch, type Ref } from "vue";
+import { computed, type EffectScope, effectScope, onScopeDispose, reactive, ref, watch, type Ref } from "vue";
 import { createSharedComposable } from "./useSharedComposable";
 
 export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: boolean) {
+
+    let scope: EffectScope
+
+    const handler: ViewportHandler = (...e: Parameters<ViewportHandler>) => {
+        if (scope) scope.stop()
+        scope = effectScope()
+        scope.run(() => {
+            fn(...e)
+        })
+    }
+
     return useSafeClient(() => {
         const viewport = getViewport();
 
-        viewport.add(fn, priority, noThrottle, true);
+        viewport.add(handler, priority, noThrottle, true);
 
         onScopeDispose(() => {
-            viewport.remove(fn);
+            viewport.remove(handler);
+            if (scope) scope.stop()
         });
     });
 }
