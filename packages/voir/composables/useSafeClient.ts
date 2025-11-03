@@ -1,4 +1,4 @@
-import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onScopeDispose, onWatcherCleanup, shallowRef } from "vue";
+import { effectScope, getCurrentInstance, getCurrentScope, getCurrentWatcher, onMounted, onWatcherCleanup, shallowRef, type ShallowRef } from "vue";
 
 export enum EffectMode {
     watcher = "watcher",
@@ -6,7 +6,7 @@ export enum EffectMode {
     scope = "scope",
 }
 
-export const useSafeClient = <T>(callback: () => T, options?: { unsafe?: boolean; forceMode?: EffectMode }) => {
+export const useSafeClient = <T>(callback: () => T, options?: { unsafe?: boolean; forceMode?: EffectMode }): ShallowRef<T | null> => {
     const unsafe = options?.unsafe || false; // for directives
     const forceMode = options?.forceMode || false; // for directives
 
@@ -89,4 +89,6 @@ export const useSafeClient = <T>(callback: () => T, options?: { unsafe?: boolean
 
             return callbackResult;
     }
+
+    return callbackResult;
 };

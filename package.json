@@ -22,7 +22,8 @@
     },
     "peerDependencies": {
         "typescript": "^5",
-        "gsap": "^3.13"
+        "gsap": "^3.13",
+        "vue": "^3.5.22"
     },
     "files": [
         "dist",
