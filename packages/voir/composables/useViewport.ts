@@ -4,16 +4,16 @@ import { computed, type EffectScope, effectScope, onScopeDispose, reactive, ref,
 import { createSharedComposable } from "./useSharedComposable";
 
 export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: boolean) {
-
-    let scope: EffectScope
+    let scope: EffectScope | null = null;
 
     const handler: ViewportHandler = (...e: Parameters<ViewportHandler>) => {
-        if (scope) scope.stop()
-        scope = effectScope()
+        scope?.stop();
+        scope = effectScope();
+
         scope.run(() => {
-            fn(...e)
-        })
-    }
+            fn(...e);
+        });
+    };
 
     return useSafeClient(() => {
         const viewport = getViewport();
@@ -22,7 +22,7 @@ export function useResize(fn: ViewportHandler, priority?: number, noThrottle?: b
 
         onScopeDispose(() => {
             viewport.remove(handler);
-            if (scope) scope.stop()
+            scope?.stop();
         });
     });
 }
