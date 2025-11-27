@@ -2,6 +2,7 @@
     "name": "@propagande-studio/utils",
     "version": "0.0.33",
     "description": "PROPAGANDE utils.",
+    "packageManager": "bun@1.3.3",
     "author": "propagande.studio",
     "repository": {
         "type": "git",

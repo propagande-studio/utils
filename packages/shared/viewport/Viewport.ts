@@ -53,7 +53,12 @@ export class Viewport {
         this.width = window.innerWidth;
         this.height = window.innerHeight;
 
-        if (this.isMobile && this.previousWidth === this.width && this.previousHeight <= this.height) {
+        if (
+            this.isMobile &&
+            this.previousWidth === this.width &&
+            this.previousHeight <= this.height &&
+            Math.abs(this.height - this.previousHeight) < this.height * 0.15
+        ) {
             // keep the previous height to avoid useless resize
             this.height = this.previousHeight;
         } else {
@@ -95,8 +100,8 @@ export class Viewport {
                         width: this.width,
                         height: this.height,
                     },
-                    this
-                )
+                    this,
+                ),
             );
     };
 
@@ -109,8 +114,8 @@ export class Viewport {
                         width: this.width,
                         height: this.height,
                     },
-                    this
-                )
+                    this,
+                ),
             );
 
         setTimeout(() => {
@@ -173,7 +178,7 @@ export class Viewport {
                     width: this.width,
                     height: this.height,
                 },
-                this
+                this,
             );
         }
 
