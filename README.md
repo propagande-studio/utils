@@ -204,8 +204,27 @@ const result = useSafeClient(() => {
 
 #### `createSharedComposable`
 
-- **What it does**: Makes a composable instance "shared" so multiple components get the same state without re-running initialization logic.
-- **When to use**: Global state patterns like window dimensions or scroll tracking.
+- **What it does**: Turns a regular composable into a "shared" one. The first component to call it initializes the state, and subsequent components share that same state. The state is destroyed when the last component unmounts.
+- **When to use**: Tracking global data like window size, scroll position, or user sessions while avoiding redundant event listeners.
+- **Example**:
+
+```javascript
+// sharedComposable.js
+import { ref } from "vue";
+import { createSharedComposable } from "@propagande-studio/utils/voir";
+
+export const useSharedScroll = createSharedComposable(() => {
+    const scrollY = ref(0);
+    window.addEventListener("scroll", () => {
+        scrollY.value = window.scrollY;
+    });
+    return scrollY;
+});
+
+// ComponentA.vue & ComponentB.vue
+// Both will receive the EXACT SAME scrollY ref.
+const scrollY = useSharedScroll();
+```
 
 #### `useWatchOnce`
 
@@ -216,10 +235,4 @@ const result = useSafeClient(() => {
 useWatchOnce(someRef, (val) => {
     console.log("Triggered only once!");
 });
-```
-
-To install dependencies:
-
-```bash
-bun install
 ```
