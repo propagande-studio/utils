@@ -6,15 +6,22 @@ export type DampedOpts = {
     target?: MaybeRef<number>;
     damped?: MaybeRef<number>;
     lambda?: MaybeRef<number>;
+    decimal?: number
 };
 
-export const useDampedValue = ({ target = ref(0), damped = ref(0), lambda = ref(8) }: DampedOpts = {}) => {
+export const useDampedValue = ({ target = ref(0), damped = ref(0), lambda = ref(8), decimal }: DampedOpts = {}) => {
     target = toRef(target);
     lambda = toRef(lambda);
     damped = toRef(damped);
 
     useFrame(({ dt }) => {
+        if (damped.value === target.value) return
+
         damped.value = P.Damp(damped.value, target.value, lambda.value, dt);
+
+        if (decimal === undefined) return
+
+        if (Math.abs(damped.value - target.value) < 10 ** -decimal) damped.value = target.value
     });
 
     return { target, damped };
