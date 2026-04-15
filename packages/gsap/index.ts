@@ -1,5 +1,5 @@
-import { gsap } from "gsap";
-import {
+export { gsap } from "gsap";
+export {
     ScrollTrigger,
     Draggable,
     MotionPathHelper,
@@ -15,21 +15,3 @@ import {
     Observer,
     ScrambleTextPlugin,
 } from "gsap/all";
-
-export {
-    gsap,
-    ScrollTrigger,
-    Draggable,
-    MotionPathPlugin,
-    Flip,
-    CustomEase,
-    InertiaPlugin,
-    SplitText,
-    GSDevTools,
-    ScrollSmoother,
-    MotionPathHelper,
-    DrawSVGPlugin,
-    MorphSVGPlugin,
-    Observer,
-    ScrambleTextPlugin,
-};
