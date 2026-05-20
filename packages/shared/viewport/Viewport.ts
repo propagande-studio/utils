@@ -91,6 +91,12 @@ export class Viewport {
         }
     };
 
+    forceResize() {
+        this.internalResize();
+        this.updateNoThrottle();
+        this.updateThrottled();
+    }
+
     updateNoThrottle = () => {
         this.updateFns
             .filter((fn) => fn.noThrottle)
