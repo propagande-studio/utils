@@ -1,6 +1,6 @@
 {
     "name": "@propagande-studio/utils",
-    "version": "0.0.38",
+    "version": "0.0.39",
     "description": "PROPAGANDE utils.",
     "packageManager": "bun@1.3.4",
     "author": "propagande.studio",
