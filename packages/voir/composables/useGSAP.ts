@@ -20,17 +20,23 @@ export const useGSAPContext = (callback?: (ctx: gsap.Context) => void, revert: b
     );
 };
 
-export const useGSAPMatchMedia = (callback?: (ctx: gsap.Context) => void, revert: boolean = false) => {
+type GSAPMatchMediaOptions = {
+    revert?: boolean;
+    conditions?: readonly string[];
+};
+
+export const useGSAPMatchMedia = (callback?: (ctx: gsap.Context) => void, revertOrOptions: boolean | GSAPMatchMediaOptions = false) => {
     if (!getCurrentScope()) throw new Error("useGSAPMatchMedia must be called within a scope");
 
     const viewport = getViewport();
+    const options = typeof revertOrOptions === "boolean" ? { revert: revertOrOptions } : revertOrOptions;
 
     return useSafeClient(() => {
         const scope = effectScope();
 
         const mm = gsap.matchMedia();
 
-        const conditions = viewport.breakpoints.reduce(
+        const availableConditions = viewport.breakpoints.reduce(
             (conditions, breakpoint) => {
                 conditions[`is${capitalize(breakpoint.name)}`] = `(min-width: ${breakpoint.size}px)`;
                 return conditions;
@@ -38,7 +44,17 @@ export const useGSAPMatchMedia = (callback?: (ctx: gsap.Context) => void, revert
             {} as Record<string, string>,
         );
 
-        conditions.isPointerFine = "(hover: hover)";
+        availableConditions.isPointerFine = "(hover: hover)";
+
+        const conditions = options.conditions
+            ? Object.fromEntries(
+                  options.conditions.map((name) => {
+                      const query = availableConditions[name];
+                      if (!query) throw new Error(`Unknown GSAP media condition: ${name}`);
+                      return [name, query];
+                  }),
+              )
+            : availableConditions;
 
         // if matchMedia is used without any conditions, it will not run the callback on initial load, so we add a default condition that always matches
         conditions.is = "(min-width: 0px)";
@@ -50,7 +66,7 @@ export const useGSAPMatchMedia = (callback?: (ctx: gsap.Context) => void, revert
         });
 
         onScopeDispose(() => {
-            mm.kill(revert);
+            mm.kill(options.revert ?? false);
         });
 
         return mm;

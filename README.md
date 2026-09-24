@@ -173,12 +173,19 @@ useGSAPContext((ctx) => {
 
 ```vue
 <script setup>
-useGSAPMatchMedia((ctx) => {
-    const { isLg } = ctx.conditions;
-    gsap.to(".box", { x: isLg ? 500 : 100 });
-});
+useGSAPMatchMedia(
+    (ctx) => {
+        const { isLg } = ctx.conditions;
+        gsap.to(".box", { x: isLg ? 500 : 100 });
+    },
+    { conditions: ["isLg"] },
+);
 </script>
 ```
+
+Pass only the conditions the animation uses. The callback then reruns when one of those conditions changes, without rebuilding at unrelated breakpoints.
+`isPointerFine` can be included for hover-dependent animations. Omitting `conditions` keeps the existing behavior of watching every configured breakpoint and
+pointer capability. The second argument can still be a boolean to control context revert on unmount, or an options object with `revert` and `conditions`.
 
 ### Viewport & Resize
 
