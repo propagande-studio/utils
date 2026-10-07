@@ -1,5 +1,5 @@
 {
-    "name": "@propagande-studio/utils",
+    "name": "@propagande/utils",
     "version": "0.0.42",
     "description": "PROPAGANDE utils.",
     "packageManager": "bun@1.4.2",
@@ -12,10 +12,10 @@
     "type": "module",
     "scripts": {
         "test": "bun test",
+        "test:package": "bun ./scripts/check-package.ts",
         "audit": "bun audit",
         "build": "bun ./build && bun run types",
-        "prepare:npm": "bun ./scripts/prepare-npm-package.ts",
-        "publish:npm": "bun run test && bun run build && bun run prepare:npm && npm publish ./work/npm-package --ignore-scripts",
+        "publish:npm": "bun run test && bun run build && bun run test:package && npm publish --ignore-scripts --access public --registry=https://registry.npmjs.org",
         "build:watch": "concurrently --kill-others 'bun ./build.watch' 'bun run types --watch --preserveWatchOutput'",
         "types": "tsc --project tsconfig.types.json"
     },

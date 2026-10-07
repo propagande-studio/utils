@@ -1,4 +1,4 @@
-import { ScrollTrigger } from "@propagande-studio/utils/gsap";
+import { ScrollTrigger } from "../../gsap";
 import { throttle } from "../throttle-debounce";
 
 export interface ViewportHandler {

@@ -1,6 +1,6 @@
 # Propagande Utils Documentation
 
-This documentation covers the core utilities and Vue composables provided by the `@propagande-studio/utils` repository.
+This documentation covers the core utilities and Vue composables provided by the `@propagande/utils` repository.
 
 ## Installation
 
@@ -16,12 +16,11 @@ import { useFrame } from "@propagande/utils/voir";
 import { gsap } from "@propagande/utils/gsap";
 ```
 
-GitHub Packages continues to publish `@propagande-studio/utils`. The examples below use that name;
-when installing from npm, replace it with `@propagande/utils`.
+GitHub Packages remains available as `@propagande-studio/utils` for existing projects.
 
 ## Table of Contents
 
-- [Shared Package (`@propagande-studio/utils/shared`)](#shared-package)
+- [Shared Package (`@propagande/utils/shared`)](#shared-package)
     - [Math utilities](#math-utilities)
     - [Array utilities](#array-utilities)
     - [Random utilities](#random-utilities)
@@ -29,7 +28,7 @@ when installing from npm, replace it with `@propagande/utils`.
     - [Ticker](#ticker)
     - [Viewport](#viewport)
     - [Throttle & Debounce](#throttle--debounce)
-- [Voir Package (`@propagande-studio/utils/voir`)](#voir-package)
+- [Voir Package (`@propagande/utils/voir`)](#voir-package)
     - [Animation & Motion](#animation--motion)
     - [GSAP Integration](#gsap-integration)
     - [Viewport & Resize](#viewport--resize)
@@ -39,7 +38,7 @@ when installing from npm, replace it with `@propagande/utils`.
 
 ## Shared Package
 
-Accessible via `import { P } from "@propagande-studio/utils"`.
+Accessible via `import { P } from "@propagande/utils"`.
 
 ### Math Utilities
 
@@ -119,7 +118,7 @@ Composables designed for Vue 3 projects, handling everything from physical anima
 ```vue
 <script setup>
 import { ref } from "vue";
-import { useDampedValue } from "@propagande-studio/utils/voir";
+import { useDampedValue } from "@propagande/utils/voir";
 
 const target = ref(0);
 const { damped } = useDampedValue({ target, lambda: 8 });
@@ -153,7 +152,7 @@ const { damped: position, velocity } = useSpring({
 
 ```vue
 <script setup>
-import { useFrame } from "@propagande-studio/utils/voir";
+import { useFrame } from "@propagande/utils/voir";
 
 useFrame(({ et, dt }) => {
     console.log(`Elapsed: ${et}, Delta: ${dt}`);
@@ -174,8 +173,8 @@ useFrame(({ et, dt }) => {
 
 ```vue
 <script setup>
-import { useGSAPContext } from "@propagande-studio/utils/voir";
-import { gsap } from "@propagande-studio/utils/gsap";
+import { useGSAPContext } from "@propagande/utils/voir";
+import { gsap } from "@propagande/utils/gsap";
 
 useGSAPContext((ctx) => {
     gsap.to(".box", { x: 100 });
@@ -235,7 +234,7 @@ const result = useSafeClient(() => {
 ```javascript
 // sharedComposable.js
 import { onScopeDispose, ref } from "vue";
-import { createSharedComposable, useSafeClient } from "@propagande-studio/utils/voir";
+import { createSharedComposable, useSafeClient } from "@propagande/utils/voir";
 
 export const useSharedScroll = createSharedComposable(() => {
     const scrollY = ref(0);
@@ -272,14 +271,19 @@ Copyright (c) 2026 PROPAGANDE. All rights reserved. This package is proprietary;
 ## Development
 
 Use the Bun version declared in `packageManager` and install with `bun install --frozen-lockfile --ignore-scripts`.
-Run `bun run test` and `bun run build` to verify changes. Use `bun run audit` to check dependencies when needed.
+Run `bun run test`, `bun run build`, and `bun run test:package` to verify changes.
+The package check verifies exports and that the composables use the shared ticker and viewport.
+Use `bun run audit` to check dependencies when needed.
 
 ## Publishing
 
-The release workflow publishes the same version to GitHub Packages as `@propagande-studio/utils`
-and to npm as `@propagande/utils`. `bun run prepare:npm` prepares the npm package in
-`work/npm-package`, updating the package name and all internal imports, declarations, sources,
-source maps, and documentation to the npm scope.
+The package is named `@propagande/utils` in the source checkout and published directly to npm.
+Internal modules use relative imports; the build emits shared chunks so the ticker and viewport
+remain shared across entry points.
+
+The release workflow also publishes `@propagande-studio/utils` to GitHub Packages for existing
+projects. Only the package name in the manifest changes for that registry; the compiled code
+and declarations are identical for both publications.
 
 For the first npm publication, authenticate with an npm account that can publish under `@propagande`
 and run `bun run publish:npm`. Alternatively, configure the repository's `NPM_TOKEN` Actions secret
@@ -291,5 +295,5 @@ organization `propagande-studio`, repository `utils`, workflow filename
 The workflow can then publish through OIDC without `NPM_TOKEN`.
 See [npm's trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
 
-To publish an existing release, run the workflow manually with its tag (for example, `v0.0.42`).
+To publish a release containing this workflow, run it manually with that release's tag.
 Prerelease versions are published to the npm `next` tag; stable versions use `latest`.

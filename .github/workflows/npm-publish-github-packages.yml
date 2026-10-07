@@ -40,6 +40,10 @@ jobs:
             - run: bun install --frozen-lockfile --ignore-scripts
             - run: bun run test
             - run: bun run build
+            - run: bun run test:package
+            - name: Set the GitHub Packages scope
+              # Internal imports are relative, so both registries use the exact same build.
+              run: npm pkg set name="@propagande-studio/utils"
             - name: Publish to GitHub Packages
               run: bun publish --ignore-scripts --registry=https://npm.pkg.github.com
               env:
@@ -80,10 +84,9 @@ jobs:
             - run: bun install --frozen-lockfile --ignore-scripts
             - run: bun run test
             - run: bun run build
-            - run: bun run prepare:npm
+            - run: bun run test:package
             - name: Check whether the npm version is already published
               id: npm-version
-              working-directory: work/npm-package
               run: |
                   node --input-type=module <<'NODE'
                   import { readFileSync, appendFileSync } from 'node:fs';
@@ -96,7 +99,6 @@ jobs:
                   NODE
             - name: Publish to npm
               if: steps.npm-version.outputs.published != 'true'
-              working-directory: work/npm-package
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |

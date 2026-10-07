@@ -1,4 +1,4 @@
-import { gsap } from "@propagande-studio/utils/gsap";
+import { gsap } from "../../gsap";
 
 const Lerp = (xi: number, xf: number, t: number) => {
     return (1 - t) * xi + t * xf;

@@ -1,4 +1,5 @@
 import type { BuildConfig } from "bun";
+import { rm } from "node:fs/promises";
 import { build } from "./scripts/build";
 
 export const buildConfig: BuildConfig = {
@@ -6,8 +7,9 @@ export const buildConfig: BuildConfig = {
     outdir: "./dist",
     target: "browser",
     format: "esm",
+    splitting: true,
     minify: false,
-    external: ["vue", "react", "@propagande-studio/utils", "gsap"],
+    external: ["vue", "react", "gsap"],
     sourcemap: "linked",
     naming: {
         entry: "[dir]-[name].[ext]", // Avoid having a sub directory as source maps got lost... Might be fixable.
@@ -17,6 +19,8 @@ export const buildConfig: BuildConfig = {
     footer: "// PROPERTY OF PROPAGANDE.",
 };
 
+// Remove old hashed chunks before producing a release build.
+await rm("./dist", { recursive: true, force: true });
 await build({
     ...buildConfig,
 });

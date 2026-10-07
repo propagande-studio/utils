@@ -3,7 +3,7 @@
   "configVersion": 0,
   "workspaces": {
     "": {
-      "name": "@propagande-studio/utils",
+      "name": "@propagande/utils",
       "devDependencies": {
         "@types/bun": "^1.4.2",
         "concurrently": "^9.2.4",
