@@ -1,6 +1,6 @@
 {
     "name": "@propagande/utils",
-    "version": "0.0.42",
+    "version": "0.0.43",
     "description": "PROPAGANDE utils.",
     "packageManager": "bun@1.4.2",
     "license": "UNLICENSED",
