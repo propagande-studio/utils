@@ -1,4 +1,6 @@
 export { gsap } from "gsap";
+export { SplitTextAnimator } from "./SplitTextAnimator";
+export type { SplitTextAnimatorInstance } from "./SplitTextAnimator";
 export {
     ScrollTrigger,
     Draggable,
