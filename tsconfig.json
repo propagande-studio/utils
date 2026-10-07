@@ -27,12 +27,6 @@
         "noUnusedParameters": false,
         "noPropertyAccessFromIndexSignature": false,
 
-        // Paths
-        "paths": {
-            "@propagande-studio/utils": ["./packages/shared"],
-            "@propagande-studio/utils/*": ["./packages/*"]
-        },
-
         // Types
         "typeRoots": ["./node_modules/@types", "./types"]
     }

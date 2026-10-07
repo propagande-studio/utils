@@ -1,4 +1,4 @@
-import { type TickerHandler, getTicker } from "@propagande-studio/utils/shared";
+import { type TickerHandler, getTicker } from "../../shared/ticker";
 import { useSafeClient } from "./useSafeClient";
 import { onScopeDispose, toRef, type MaybeRef } from "vue";
 

@@ -4,7 +4,7 @@ import { effectScope } from "vue";
 
 const registeredConditions: Record<string, string>[] = [];
 
-mock.module("@propagande-studio/utils", () => ({
+mock.module("../../shared/viewport", () => ({
     getViewport: () => ({
         breakpoints: [
             { name: "lg", size: 1024 },
@@ -13,7 +13,7 @@ mock.module("@propagande-studio/utils", () => ({
     }),
 }));
 
-mock.module("@propagande-studio/utils/gsap", () => ({
+mock.module("../../gsap", () => ({
     gsap: {
         ...gsap,
         matchMedia: () => ({

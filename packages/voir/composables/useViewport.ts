@@ -1,4 +1,4 @@
-import { getViewport, type ViewportHandler } from "@propagande-studio/utils/shared";
+import { getViewport, type ViewportHandler } from "../../shared/viewport";
 import { useSafeClient } from "./useSafeClient";
 import { computed, type EffectScope, effectScope, onScopeDispose, reactive, ref, watch, type Ref } from "vue";
 import { createSharedComposable } from "./useSharedComposable";

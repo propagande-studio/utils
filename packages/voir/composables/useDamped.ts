@@ -1,6 +1,6 @@
 import { ref, toRef, type MaybeRef } from "vue";
 import { useFrame } from "./useTicker";
-import { P } from "@propagande-studio/utils";
+import { P } from "../../shared/utils";
 
 export type DampedOpts = {
     target?: MaybeRef<number>;
