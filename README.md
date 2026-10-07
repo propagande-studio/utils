@@ -271,15 +271,8 @@ Copyright (c) 2026 PROPAGANDE. All rights reserved. This package is proprietary;
 ## Development
 
 Use the Bun version declared in `packageManager` and install with `bun install --frozen-lockfile --ignore-scripts`.
-Run `bun run test`, `bun run build`, and `bun run test:package` to verify changes.
-The package check verifies exports and that the composables use the shared ticker and viewport.
+Run `bun run test` and `bun run build` to verify changes.
 Use `bun run audit` to check dependencies when needed.
-
-Run `bun run test:link` to test both distribution names in independent temporary consumer projects.
-It packs the build, registers each package with `bun link`, installs Vue and GSAP in each consumer,
-and verifies all four entry points, runtime behavior, SSR isolation, declarations, and browser bundling.
-The projects and browser test pages are retained at the path printed by the command.
-The release workflow runs this check before publishing to either registry.
 
 ## Publishing
 

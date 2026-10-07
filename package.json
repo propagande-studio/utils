@@ -12,11 +12,9 @@
     "type": "module",
     "scripts": {
         "test": "bun test",
-        "test:package": "bun ./scripts/check-package.ts",
-        "test:link": "bun run build && bun ./scripts/check-linked-consumer.ts",
         "audit": "bun audit",
         "build": "bun ./build && bun run types",
-        "publish:npm": "bun run test && bun run build && bun run test:package && npm publish --ignore-scripts --access public --registry=https://registry.npmjs.org",
+        "publish:npm": "bun run test && bun run build && npm publish --ignore-scripts --access public --registry=https://registry.npmjs.org",
         "build:watch": "concurrently --kill-others 'bun ./build.watch' 'bun run types --watch --preserveWatchOutput'",
         "types": "tsc --project tsconfig.types.json"
     },

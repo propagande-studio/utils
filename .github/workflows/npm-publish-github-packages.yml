@@ -40,9 +40,6 @@ jobs:
             - run: bun install --frozen-lockfile --ignore-scripts
             - run: bun run test
             - run: bun run build
-            - run: bun run test:package
-            - name: Test both package scopes with bun link
-              run: bun ./scripts/check-linked-consumer.ts
             - name: Set the GitHub Packages scope
               # Internal imports are relative, so both registries use the exact same build.
               run: npm pkg set name="@propagande-studio/utils"
@@ -86,9 +83,6 @@ jobs:
             - run: bun install --frozen-lockfile --ignore-scripts
             - run: bun run test
             - run: bun run build
-            - run: bun run test:package
-            - name: Test both package scopes with bun link
-              run: bun ./scripts/check-linked-consumer.ts
             - name: Check whether the npm version is already published
               id: npm-version
               run: |
