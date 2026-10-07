@@ -275,6 +275,12 @@ Run `bun run test`, `bun run build`, and `bun run test:package` to verify change
 The package check verifies exports and that the composables use the shared ticker and viewport.
 Use `bun run audit` to check dependencies when needed.
 
+Run `bun run test:link` to test both distribution names in independent temporary consumer projects.
+It packs the build, registers each package with `bun link`, installs Vue and GSAP in each consumer,
+and verifies all four entry points, runtime behavior, SSR isolation, declarations, and browser bundling.
+The projects and browser test pages are retained at the path printed by the command.
+The release workflow runs this check before publishing to either registry.
+
 ## Publishing
 
 The package is named `@propagande/utils` in the source checkout and published directly to npm.
