@@ -285,14 +285,17 @@ projects. Only the package name in the manifest changes for that registry; the c
 and declarations are identical for both publications.
 
 For the first npm publication, authenticate with an npm account that can publish under `@propagande`
-and run `bun run publish:npm`. Alternatively, configure the repository's `NPM_TOKEN` Actions secret
-with a granular npm token that can publish this package and bypass 2FA.
+using `npm login`, then run `bun run publish:npm` and complete any requested 2FA validation.
 
 After the package exists, configure a GitHub Actions trusted publisher in its npm settings:
 organization `propagande-studio`, repository `utils`, workflow filename
 `npm-publish-github-packages.yml`, no environment, and allow direct `npm publish`.
-The workflow can then publish through OIDC without `NPM_TOKEN`.
+The workflow publishes through OIDC on a GitHub-hosted runner with Node 24 and
+`id-token: write`. No npm token or Actions secret is required.
 See [npm's trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
 
-To publish a release containing this workflow, run it manually with that release's tag.
+Publish a new version through this workflow within two days of configuring the trusted publisher
+to activate it. Bump `package.json` to a new version and merge into `main`; the Create Release
+workflow creates the version tag and triggers publication to both registries.
+To retry an existing release, run Publish Packages manually with that release's tag.
 Prerelease versions are published to the npm `next` tag; stable versions use `latest`.

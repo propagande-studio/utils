@@ -65,8 +65,6 @@ jobs:
                   NODE
             - name: Publish to npm
               if: steps.npm-version.outputs.published != 'true'
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
                   version=$(jq -r .version package.json)
                   tag=latest
