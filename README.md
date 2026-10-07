@@ -211,27 +211,31 @@ const result = useSafeClient(() => {
 
 #### `createSharedComposable`
 
-- **What it does**: Turns a regular composable into a "shared" one. The first component to call it initializes the state, and subsequent components share that same state. The state is destroyed when the last component unmounts.
-- **When to use**: Tracking global data like window size, scroll position, or user sessions while avoiding redundant event listeners.
+- **What it does**: Shares composable state in the browser until the last subscriber's scope is disposed. On the server, each call creates its own state so separate SSR requests cannot share cached values.
+- **When to use**: Tracking browser data like window size or scroll position while avoiding redundant event listeners. Use request-scoped state for authentication and user sessions.
 - **Example**:
 
 ```javascript
 // sharedComposable.js
-import { ref } from "vue";
-import { createSharedComposable } from "@propagande-studio/utils/voir";
+import { onScopeDispose, ref } from "vue";
+import { createSharedComposable, useSafeClient } from "@propagande-studio/utils/voir";
 
 export const useSharedScroll = createSharedComposable(() => {
     const scrollY = ref(0);
-    window.addEventListener("scroll", () => {
-        scrollY.value = window.scrollY;
+    useSafeClient(() => {
+        const onScroll = () => { scrollY.value = window.scrollY; };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        onScopeDispose(() => window.removeEventListener("scroll", onScroll));
     });
     return scrollY;
 });
 
 // ComponentA.vue & ComponentB.vue
-// Both will receive the EXACT SAME scrollY ref.
+// In the browser, both receive the same scrollY ref.
 const scrollY = useSharedScroll();
 ```
+
+During SSR, calls receive independent refs. This helper does not provide per-request session storage.
 
 #### `useWatchOnce`
 
@@ -243,3 +247,12 @@ useWatchOnce(someRef, (val) => {
     console.log("Triggered only once!");
 });
 ```
+
+## License
+
+Copyright (c) 2026 PROPAGANDE. All rights reserved. This package is proprietary; see [LICENSE](LICENSE).
+
+## Development
+
+Use the Bun version declared in `packageManager` and install with `bun install --frozen-lockfile --ignore-scripts`.
+Run `bun run test` and `bun run build` to verify changes. Use `bun run audit` to check dependencies when needed.
