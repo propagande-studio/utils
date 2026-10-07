@@ -19,7 +19,9 @@ const Clamp = (x: number, min: number, max: number) => {
     return Math.max(Math.min(x, max), min);
 };
 
+/** A zero-width source range has progress 0. */
 const iLerp = (x: number, xi: number, xf: number, options?: { clamp: boolean }) => {
+    if (xi === xf) return 0;
     const res = (x - xi) / (xf - xi);
     if (options?.clamp === true) {
         return Clamp(res, 0, 1);
@@ -36,8 +38,9 @@ const Round = (x: number, decimal?: number) => {
     return Math.round(x * decimal) / decimal;
 };
 
+/** Snap to the exact target when both values match at the requested precision. */
 const RoundWhenClose = (a: number, b: number, decimal?: number) => {
-    return Round(a, decimal) === Round(b, decimal) ? Math.round(b) : a;
+    return Round(a, decimal) === Round(b, decimal) ? b : a;
 };
 
 const Rand = {
@@ -56,9 +59,9 @@ const Rand = {
         // eslint-disable-next-line  @typescript-eslint/unified-signatures
         (min: number, max: number): number;
     },
-    /** Rand.range avec par default step = 1% de la range */
+    /** Random float between min (inclusive) and max (exclusive). */
     range: (min: number, max: number) => {
-        return Math.random() * (max - min);
+        return min + Math.random() * (max - min);
     },
     arr: <T>(arr: Readonly<Array<T>>) => {
         return arr[Math.floor(Math.random() * arr.length)];
@@ -86,8 +89,9 @@ const Arr = {
 
         return [...arr.slice(newFirstIndex), ...arr.slice(0, newFirstIndex)];
     },
+    /** Remove every nth element in place, starting at index 0. */
     spliceNth: <T>(arr: T[], nth: number): T[] => {
-        if (nth <= 0) throw new Error("Step size must be greater than 0");
+        if (!Number.isInteger(nth) || nth <= 0) throw new Error("Step size must be a positive integer");
 
         const removed: T[] = [];
         let writeIndex = 0;
@@ -119,9 +123,9 @@ const Class = {
     },
 };
 
+/** Check own property presence independently of its value. */
 function isKeyOf<Key extends PropertyKey, T>(object: Record<Key, T>, key: PropertyKey): key is Key {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return key in object && (object as any)[key] != undefined;
+    return Object.prototype.hasOwnProperty.call(object, key);
 }
 
 const mod = (n: number, m: number) => ((n % m) + m) % m;

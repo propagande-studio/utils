@@ -1,4 +1,5 @@
 import { expect, mock, test } from "bun:test";
+import { gsap } from "gsap";
 import { effectScope } from "vue";
 
 const registeredConditions: Record<string, string>[] = [];
@@ -14,6 +15,7 @@ mock.module("@propagande-studio/utils", () => ({
 
 mock.module("@propagande-studio/utils/gsap", () => ({
     gsap: {
+        ...gsap,
         matchMedia: () => ({
             add: (conditions: Record<string, string>) => registeredConditions.push(conditions),
             kill: () => {},
