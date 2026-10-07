@@ -2,6 +2,23 @@
 
 This documentation covers the core utilities and Vue composables provided by the `@propagande-studio/utils` repository.
 
+## Installation
+
+On npm, the public package is published under the `propagande` organization:
+
+```sh
+npm install @propagande/utils vue gsap
+```
+
+```js
+import { P } from "@propagande/utils";
+import { useFrame } from "@propagande/utils/voir";
+import { gsap } from "@propagande/utils/gsap";
+```
+
+GitHub Packages continues to publish `@propagande-studio/utils`. The examples below use that name;
+when installing from npm, replace it with `@propagande/utils`.
+
 ## Table of Contents
 
 - [Shared Package (`@propagande-studio/utils/shared`)](#shared-package)
@@ -256,3 +273,23 @@ Copyright (c) 2026 PROPAGANDE. All rights reserved. This package is proprietary;
 
 Use the Bun version declared in `packageManager` and install with `bun install --frozen-lockfile --ignore-scripts`.
 Run `bun run test` and `bun run build` to verify changes. Use `bun run audit` to check dependencies when needed.
+
+## Publishing
+
+The release workflow publishes the same version to GitHub Packages as `@propagande-studio/utils`
+and to npm as `@propagande/utils`. `bun run prepare:npm` prepares the npm package in
+`work/npm-package`, updating the package name and all internal imports, declarations, sources,
+source maps, and documentation to the npm scope.
+
+For the first npm publication, authenticate with an npm account that can publish under `@propagande`
+and run `bun run publish:npm`. Alternatively, configure the repository's `NPM_TOKEN` Actions secret
+with a granular npm token that can publish this package and bypass 2FA.
+
+After the package exists, configure a GitHub Actions trusted publisher in its npm settings:
+organization `propagande-studio`, repository `utils`, workflow filename
+`npm-publish-github-packages.yml`, no environment, and allow direct `npm publish`.
+The workflow can then publish through OIDC without `NPM_TOKEN`.
+See [npm's trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
+
+To publish an existing release, run the workflow manually with its tag (for example, `v0.0.42`).
+Prerelease versions are published to the npm `next` tag; stable versions use `latest`.

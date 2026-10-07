@@ -14,6 +14,8 @@
         "test": "bun test",
         "audit": "bun audit",
         "build": "bun ./build && bun run types",
+        "prepare:npm": "bun ./scripts/prepare-npm-package.ts",
+        "publish:npm": "bun run test && bun run build && bun run prepare:npm && npm publish ./work/npm-package --ignore-scripts",
         "build:watch": "concurrently --kill-others 'bun ./build.watch' 'bun run types --watch --preserveWatchOutput'",
         "types": "tsc --project tsconfig.types.json"
     },
