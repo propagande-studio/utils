@@ -239,7 +239,9 @@ import { createSharedComposable, useSafeClient } from "@propagande/utils/voir";
 export const useSharedScroll = createSharedComposable(() => {
     const scrollY = ref(0);
     useSafeClient(() => {
-        const onScroll = () => { scrollY.value = window.scrollY; };
+        const onScroll = () => {
+            scrollY.value = window.scrollY;
+        };
         window.addEventListener("scroll", onScroll, { passive: true });
         onScopeDispose(() => window.removeEventListener("scroll", onScroll));
     });
@@ -273,29 +275,3 @@ Copyright (c) 2026 PROPAGANDE. All rights reserved. This package is proprietary;
 Use the Bun version declared in `packageManager` and install with `bun install --frozen-lockfile --ignore-scripts`.
 Run `bun run test` and `bun run build` to verify changes.
 Use `bun run audit` to check dependencies when needed.
-
-## Publishing
-
-The package is named `@propagande/utils` in the source checkout and published directly to npm.
-Internal modules use relative imports; the build emits shared chunks so the ticker and viewport
-remain shared across entry points.
-
-The release workflow also publishes `@propagande-studio/utils` to GitHub Packages for existing
-projects. Only the package name in the manifest changes for that registry; the compiled code
-and declarations are identical for both publications.
-
-For the first npm publication, authenticate with an npm account that can publish under `@propagande`
-using `npm login`, then run `bun run publish:npm` and complete any requested 2FA validation.
-
-After the package exists, configure a GitHub Actions trusted publisher in its npm settings:
-organization `propagande-studio`, repository `utils`, workflow filename
-`npm-publish-github-packages.yml`, no environment, and allow direct `npm publish`.
-The workflow publishes through OIDC on a GitHub-hosted runner with Node 24 and
-`id-token: write`. No npm token or Actions secret is required.
-See [npm's trusted publishing documentation](https://docs.npmjs.com/trusted-publishers/).
-
-Publish a new version through this workflow within two days of configuring the trusted publisher
-to activate it. Bump `package.json` to a new version and merge into `main`; the Create Release
-workflow creates the version tag and triggers publication to both registries.
-To retry an existing release, run Publish Packages manually with that release's tag.
-Prerelease versions are published to the npm `next` tag; stable versions use `latest`.
