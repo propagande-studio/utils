@@ -33,6 +33,8 @@ GitHub Packages remains available as `@propagande-studio/utils` for existing pro
     - [GSAP Integration](#gsap-integration)
     - [Viewport & Resize](#viewport--resize)
     - [Lifecycle & Utilities](#lifecycle--utilities)
+- [GSAP Package (`@propagande/utils/gsap`)](#gsap-package)
+    - [SplitTextAnimator](#splittextanimator)
 
 ---
 
@@ -264,6 +266,88 @@ During SSR, calls receive independent refs. This helper does not provide per-req
 useWatchOnce(someRef, (val) => {
     console.log("Triggered only once!");
 });
+```
+
+---
+
+## GSAP Package
+
+Accessible via `@propagande/utils/gsap`, which exports GSAP, its plugins, and animation helpers.
+
+### SplitTextAnimator
+
+`SplitTextAnimator(target, config)` creates one GSAP `SplitText` instance and adds `animate()` and `clearAnimations()` methods.
+Use it when the same text needs several animations, such as an entrance and an exit in a timeline, while keeping those animations attached to the current split elements.
+
+When SplitText splits text again, it replaces the generated line, word, or character elements. Animations created against the previous elements would keep targeting those old elements.
+`SplitTextAnimator` kills and rebuilds each registered animation with the new elements, reinserts it at its original position in its parent timeline, and preserves its paused state.
+It always enables `autoSplit`; with `type` including `"lines"`, SplitText automatically re-splits when the element's width changes or fonts finish loading.
+
+#### Create animations and add them to a timeline
+
+Run this in the browser after the target element exists. Register the SplitText plugin before creating the helper.
+
+```javascript
+import { gsap, SplitText, SplitTextAnimator } from "@propagande/utils/gsap";
+
+gsap.registerPlugin(SplitText);
+
+const split = SplitTextAnimator(".headline", {
+    type: "words,lines",
+    mask: "lines",
+});
+
+const timeline = gsap.timeline({ paused: true });
+
+timeline.add(
+    split.animate((self) => {
+        return gsap.from(self.words, {
+            yPercent: 100,
+            opacity: 0,
+            duration: 0.6,
+            stagger: 0.05,
+            ease: "power2.out",
+        });
+    }),
+);
+
+timeline.add(
+    split.animate((self) => {
+        return gsap.to(self.words, {
+            yPercent: -100,
+            opacity: 0,
+            duration: 0.4,
+            stagger: 0.03,
+            ease: "power2.in",
+        });
+    }),
+    "+=1",
+);
+
+timeline.play();
+```
+
+Each `animate(create)` callback must **return a GSAP tween or timeline**. It runs immediately and again after each split, so always read `self.words`, `self.lines`, or `self.chars` inside the callback.
+Create the animation there instead of caching split elements outside it. `animate()` returns the initial animation so it can be added to a timeline; the helper manages its replacements after subsequent splits.
+
+Other `SplitText` options can be passed through `config`. A supplied `onSplit(self)` callback runs before the registered animations are rebuilt, which is useful for preparing styles on the new elements.
+For TypeScript consumers, the return type is also exported as `SplitTextAnimatorInstance`.
+
+#### Replace animations or clean up
+
+`clearAnimations()` kills all registered animations and removes their rebuild callbacks while keeping the split text alive. Use it before registering a new transition on the same instance:
+
+```javascript
+split.clearAnimations();
+split.animate((self) => gsap.to(self.words, { opacity: 1, duration: 0.3 }));
+```
+
+When disposing the text animation, stop its parent timeline, clear the registered animations, and restore the original markup:
+
+```javascript
+timeline.kill();
+split.clearAnimations();
+split.revert();
 ```
 
 ## License
